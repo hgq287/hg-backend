@@ -1,31 +1,78 @@
-# dt_hgqbe
+# dt_hgqbe – Elegant RESTful API in Node.js + TypeScript
 
-dt_hgqbe - a restful-api v1, inspired by Nodejs and Typescript
+**Less noise. More craft.**  
+A minimal, clean, and modern backend starter using **Express**, **TypeScript**, and **Prisma ORM**, built to scale from prototypes to production.
+
+---
+
+## Tech Stack
+
+- **Node.js** + **Express**
+- **TypeScript**
+- **Prisma ORM** + MySQL
+- RESTful API structure
+- Built-in support for testing & scalable architecture
+
+---
+
+## Table of Contents
+
+- [Usage](#-usage)
+- [Installation](#-installation)
+- [Database Setup](#-database-setup)
+- [Start the App](#-start-the-app)
+- [License](#-license)
+
+---
 
 ## Usage
 
-- Clone repository `git clone git@github.com:hgq287/dt-node-hgqbe.git`
-- Install packages `npm install`
+### 1. Clone the Repository
 
-### Connect the database
+```bash
+git clone git@github.com:hgq287/dt-node-hgqbe.git
+cd dt-node-hgqbe
+```
 
-Run the following command to connect your MySQL database. This also creates tables that are defined in `prisma/schema.prisma`:
+### 2. Install Dependencies
 
-    npx prisma migrate dev --name init
+```bash
+npm install
+```
 
-### Start App
+---
 
-`npm run build`
-`npm run prod`
+## Database Setup
+
+Make sure you have **MySQL** running. Then run:
+
+```bash
+npx prisma migrate dev --name init
+```
+
+---
+
+## Start the App
+
+```bash
+npm run build
+npm run prod
+```
+
+Or during development:
+
+```bash
+npm run dev
+```
+
+---
 
 ## License
 
-The MIT License (MIT)
+This project is licensed under the MIT License.
 
-Copyright (C) 2024, Hung Q. Truong. <https://hgq287.github.io>. All rights reserved.
+© 2025 [Hg Q.](https://hgq287.github.io)
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
+MIT License – You are free to use, modify, and distribute this project with attribution.
+```
