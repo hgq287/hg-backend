@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcryptjs';
 import { RegisterInput } from './register-input.model';
-import prisma from '../../../prisma/prisma-client';
+import prisma from '../../prisma/prisma-client';
 import HttpException from '../../exceptions/http-exception';
 import { RegisteredUser } from './registered-user.model';
 import generateToken from './token.utils';

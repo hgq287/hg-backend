@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "rootDir": ".",
+    "rootDir": "./src",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
