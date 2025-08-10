@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 import routes from './routes/routes';
 import config from './config';
 
-import HttpException from './exceptions/http-exception';
+import HttpException from './exceptions/http_exception';
 
 class App {
   async init(): Promise<any> {
