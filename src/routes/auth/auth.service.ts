@@ -16,20 +16,10 @@ const checkUserUniqueness = async (email: string, username: string) => {
     },
   });
 
-  const existingUserByUsername = await prisma.user.findUnique({
-    where: {
-      username,
-    },
-    select: {
-      id: true,
-    },
-  });
-
-  if (existingUserByEmail || existingUserByUsername) {
+  if (existingUserByEmail) {
     throw new HttpException(422, {
       errors: {
         ...(existingUserByEmail ? { email: ['has already been taken'] } : {}),
-        ...(existingUserByUsername ? { username: ['has already been taken'] } : {}),
       },
     });
   }
@@ -39,7 +29,7 @@ export const createUser = async (input: RegisterInput): Promise<RegisteredUser> 
   const email = input.email?.trim();
   const username = input.username?.trim();
   const password = input.password?.trim();
-  const { image, bio, demo } = input;
+  const { bio} = input;
 
   if (!email) {
     throw new HttpException(422, { errors: { email: ["can't be blank"] } });
@@ -62,16 +52,13 @@ export const createUser = async (input: RegisterInput): Promise<RegisteredUser> 
       username,
       email,
       password: hashedPassword,
-      ...(image ? { image } : {}),
       ...(bio ? { bio } : {}),
-      ...(demo ? { demo } : {}),
     },
     select: {
       id: true,
       email: true,
       username: true,
       bio: true,
-      image: true,
     },
   });
 
@@ -103,7 +90,6 @@ export const login = async (userPayload: any) => {
       username: true,
       password: true,
       bio: true,
-      image: true,
     },
   });
 
@@ -115,7 +101,6 @@ export const login = async (userPayload: any) => {
         email: user.email,
         username: user.username,
         bio: user.bio,
-        image: user.image,
         token: generateToken(user.id),
       };
     }
@@ -138,7 +123,6 @@ export const getUserProfile = async (id: number) => {
       email: true,
       username: true,
       bio: true,
-      image: true,
     },
   })) as User;
 
@@ -172,7 +156,6 @@ export const updateUserProfile = async (userPayload: any, id: number) => {
       email: true,
       username: true,
       bio: true,
-      image: true,
     },
   });
 

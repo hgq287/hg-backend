@@ -4,6 +4,4 @@ export interface User {
   email: string;
   password: string;
   bio: string | null;
-  image: any | null;
-  demo: boolean;
 }
