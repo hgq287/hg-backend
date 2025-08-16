@@ -1,0 +1,10 @@
+version: '1.0.0'
+
+services:
+  hg_server:
+    build: .
+    restart: always
+    ports:
+      - "4106:4106"
+    env_file:
+      - .env
