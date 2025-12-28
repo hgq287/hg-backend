@@ -16,7 +16,7 @@
     "outDir": "./dist",
     "paths": {},
     "esModuleInterop": true,
-    "typeRoots" : ["./src/types", "./node_modules/@types"]
+    "typeRoots" : ["./src/common/types", "./node_modules/@types"]
   },
   "include": [
     "src/**/*", 

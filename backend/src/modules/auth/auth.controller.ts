@@ -1,11 +1,10 @@
 import { NextFunction, Request, Response, Router } from 'express';
 
 import OAuthServer from 'express-oauth-server';
-
-import oauthModel from './oauth/oauth.model';
-import auth from './auth';
-import { sharedAuth } from './auth.shared';
-import { createUser, getUserProfile, login, updateUserProfile } from './auth.service';
+import oauthModel from './oauth/oauth.repository';
+import { authMiddleware } from '../../common/middleware/auth.middleware';
+import { sharedAuth } from '../../common/middleware/auth.middleware';
+import { createUser } from './auth.service';
 
 const router = Router();
 
@@ -15,6 +14,9 @@ const oauth = new OAuthServer({
   accessTokenLifetime: 60 * 60, 
   refreshTokenLifetime: 60 * 60 * 24 * 7, 
 });
+
+
+const authGuard = sharedAuth(oauthModel);
 
 const ACCESS_TOKEN_LIFETIME_SECONDS = 3600; 
 const REFRESH_TOKEN_LIFETIME_SECONDS = 60 * 60 * 24 * 7; 
@@ -54,7 +56,7 @@ const jsonToFormUrlencoded = (req: any, res: any, next: any) => {
 /**
  * @route {GET} /oauth/authorize
  */
-router.get('/oauth/authorize', auth.optional, async (req: Request, res: Response, next: NextFunction) => {
+router.get('/oauth/authorize', authMiddleware.optional, async (req: Request, res: Response, next: NextFunction) => {
   
   // Ensure the ID is explicitly converted to a number.
   const authenticatedUserId = 1;
@@ -150,60 +152,6 @@ router.post('/signin', async (req: Request, res: Response, next: NextFunction) =
   } catch (error) {
     console.error('Error during manual signin grant:', error);
     return res.status(500).json({ error: 'server_error', error_description: 'Internal error during token issuance.' });
-  }
-});
-
-
-/**
- * Get user-profile
- * @route {GET} /user/profile
- */
-router.get('/user/profile', sharedAuth, async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const userId = (req as any).authenticatedUserId; 
-    console.log('Authenticated User ID:', userId);
-
-    if (!userId) {
-        return res.status(401).json({ success: false, message: 'Unauthorized' });
-    }
-
-    const user = await getUserProfile(userId);
-    res.status(200).json({ success: true, data: { user } });
-  } catch (error) {
-    next(error);
-  }
-});
-
-/**
- * Update user-profile
- * @auth required (via Shared Middleware)
- * @route {PUT} /user/profile
- */
-router.put('/user/profile', sharedAuth, async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const userId = (req as any).authenticatedUserId; 
-    
-    if (!userId) {
-        return res.status(401).json({ success: false, message: 'Unauthorized' });
-    }
-
-    const user = await updateUserProfile(req.body, userId);
-    res.json({ user });
-  } catch (error) {
-    next(error);
-  }
-});
-
-/**
- * Get Author Infomation
- * @route {GET} /author
- */
-router.get('/author', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    return res.json({ 'Author': 'Hung Q.' }).status(200);
-  } catch(e) {
-    console.error(e.message);
-    return next(e);
   }
 });
 
