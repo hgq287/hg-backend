@@ -40,3 +40,6 @@ testem.log
 Thumbs.db
 
 .nx/cache
+
+# yarn v2
+.yarn
