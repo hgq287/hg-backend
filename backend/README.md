@@ -1,17 +1,17 @@
-# dt_hgqbe – Elegant RESTful API in Node.js + TypeScript
-
+# HGUnified: A flexible system that can grow with you
 **Less noise. More craft.**  
 A minimal, clean, and modern backend starter using **Express**, **TypeScript**, and **Prisma ORM**, built to scale from prototypes to production.
 
 ---
 
-## Tech Stack
+## Architecture & Design Patterns
 
-- **Node.js** + **Express**
-- **TypeScript**
-- **Prisma ORM** + MySQL
-- RESTful API structure
-- Built-in support for testing & scalable architecture
+This project follows **Clean Architecture** and **SOLID** principles to ensure professional-grade maintainability:
+
+- **Modular Design**: Business logic is encapsulated into self-contained modules (e.g., `Auth`, `User`).
+- **Repository Pattern**: Database interactions are isolated from business logic using Prisma repositories, making the core logic database-agnostic.
+- **DTO (Data Transfer Objects)**: Strict input and output contracts (e.g., `RegisterRequestDto`, `UserProfileDto`) ensure data integrity and prevent sensitive field leakage (like passwords).
+- **Centralized Middleware**: Shared authentication logic (OAuth2 + JWT) is located in the `common` layer to eliminate circular dependencies between modules.
 
 ---
 
@@ -54,8 +54,10 @@ npx prisma migrate dev --name init
 
 ## Start the App
 
+- Using `npm`
+
 ```bash
-npm run build
+npm run build 
 npm run prod
 ```
 
@@ -63,6 +65,19 @@ Or during development:
 
 ```bash
 npm run dev
+```
+
+- Using `yarn`
+
+```bash
+yarn build
+yarn prod
+```
+
+Or during development:
+
+```bash
+yarn dev
 ```
 
 ---
