@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 import routes from './routes/routes';
 import config from './config';
 
-import { ensureOAuthClient } from './modules/auth/oauth/oauth.setup';
+import { ensureOAuthClient } from './config/oauth.config';
 
 class App {
   async init(): Promise<any> {
@@ -34,7 +34,7 @@ class App {
      * Health Check endpoints
      */
     app.get('/status', (req, res) => {
-      res.status(200).end();
+      return res.json({ 'Author': 'Hg Q.' }).status(200);
     });
 
     /**

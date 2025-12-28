@@ -1,10 +1,9 @@
 import * as bcrypt from 'bcryptjs';
-import { RegisterInput } from './dto/register_input.model';
+import { RegisterRequestDto } from './dto/auth.dto';
 import prisma from '../../config/prisma.client';
-import HttpException from '../../exceptions/http_exception';
-import { RegisteredUser } from './dto/registered_user.model';
-import generateToken from '../../utils/token.utils';
-import { User } from './dto/user.model';
+import HttpException from '../../common/errors/http_exception';
+import { AuthResponseDto } from './dto/auth.dto';
+import generateToken from '../../common/utils/token.utils';
 
 const checkUserUniqueness = async (email: string, username: string) => {
   const existingUserByEmail = await prisma.user.findUnique({
@@ -25,7 +24,7 @@ const checkUserUniqueness = async (email: string, username: string) => {
   }
 };
 
-export const createUser = async (input: RegisterInput): Promise<RegisteredUser> => {
+export const createUser = async (input: RegisterRequestDto): Promise<AuthResponseDto> => {
   const email = input.email?.trim();
   const username = input.username?.trim();
   const password = input.password?.trim();
@@ -111,60 +110,4 @@ export const login = async (userPayload: any) => {
       'email or password': ['is invalid'],
     },
   });
-};
-
-export const getUserProfile = async (id: number) => {
-  if(id === undefined) {
-    return null;
-  }
-
-  const user = (await prisma.user.findUnique({
-    where: {
-      id,
-    },
-    select: {
-      id: true,
-      email: true,
-      username: true,
-      bio: true,
-    },
-  })) as User;
-
-  return {
-    ...user,
-    token: generateToken(user.id),
-  };
-};
-
-export const updateUserProfile = async (userPayload: any, id: number) => {
-  const { email, username, password, image, bio } = userPayload;
-  let hashedPassword;
-
-  if (password) {
-    hashedPassword = await bcrypt.hash(password, 10);
-  }
-
-  const user = await prisma.user.update({
-    where: {
-      id: id,
-    },
-    data: {
-      ...(email ? { email } : {}),
-      ...(username ? { username } : {}),
-      ...(password ? { password: hashedPassword } : {}),
-      ...(image ? { image } : {}),
-      ...(bio ? { bio } : {}),
-    },
-    select: {
-      id: true,
-      email: true,
-      username: true,
-      bio: true,
-    },
-  });
-
-  return {
-    ...user,
-    token: generateToken(user.id),
-  };
 };

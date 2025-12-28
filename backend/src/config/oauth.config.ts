@@ -1,4 +1,4 @@
-import prisma from '../../../config/prisma.client'; 
+import prisma from './prisma.client'; 
 const TEST_CLIENT_ID = 'abc12345';
 const TEST_CLIENT_SECRET = 'xyz67890';
 const TEST_REDIRECT_URI = 'http://client.app/callback';
@@ -7,7 +7,7 @@ export async function ensureOAuthClient() {
   try {
     const client = await prisma.oAuthClient.upsert({
       where: { clientId: TEST_CLIENT_ID },
-      update: {}, // No updates needed if it exists
+      update: {}, 
       create: {
         clientId: TEST_CLIENT_ID,
         clientSecret: TEST_CLIENT_SECRET,

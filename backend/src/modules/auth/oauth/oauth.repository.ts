@@ -31,7 +31,6 @@ const model: any = {
     const match = await bcrypt.compare(password, user.password);
 
     if (match) {
-      console.log(`[User Debug] User authenticated: ${user.id}`);
         return { id: user.id } as oauth2.User; 
     }
     return null;
