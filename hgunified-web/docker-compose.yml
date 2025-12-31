@@ -1,0 +1,13 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hgunified-web-dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules # Prevents local node_modules from overwriting container's
+    # Vite needs --host to be accessible from outside the container
+    command: npm run dev -- --host 0.0.0.0
