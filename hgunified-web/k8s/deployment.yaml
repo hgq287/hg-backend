@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hgunified-web-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hgunified-web
+  template:
+    metadata:
+      labels:
+        app: hgunified-web
+    spec:
+      containers:
+      - name: hgunified-web
+        image: hgunified-web:v1
+        imagePullPolicy: IfNotPresent # Tells K8s to use the local image you just built
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hgunified-web-service
+spec:
+  type: LoadBalancer # This maps to localhost
+  selector:
+    app: hgunified-web
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
